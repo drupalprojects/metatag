@@ -105,6 +105,7 @@ abstract class MetatagTagsTestBase extends BrowserTestBase {
         $xpath = "//input[@name='{$tag}' and @type='text']";
       }
 
+      die(print_r(get_class_methods(get_class($this))));
       $this->assertFieldByXPath($xpath, NULL, format_string('Found the @tag meta tag field.', ['@tag' => $tag]));
     }
 
@@ -233,7 +234,7 @@ abstract class MetatagTagsTestBase extends BrowserTestBase {
       // Most meta tags have an attribute, but some don't.
       if (!empty($xpath_value_attribute)) {
         $this->assertTrue($xpath_value_attribute);
-        $this->assertTrue(isset($xpath[0][$xpath_value_attribute]));
+        $this->assertTrue($xpath[0]->has($xpath_value_attribute));
         // Help with debugging.
         if (!isset($xpath[0][$xpath_value_attribute])) {
           $this->verbose($xpath, $tag_name . ': ' . $xpath_string);
@@ -242,7 +243,7 @@ abstract class MetatagTagsTestBase extends BrowserTestBase {
           if ((string)$xpath[0][$xpath_value_attribute] != $all_values[$tag_name]) {
             $this->verbose($xpath, $tag_name . ': ' . $xpath_string);
           }
-          $this->assertTrue($xpath[0][$xpath_value_attribute]);
+          // $this->assertTrue($xpath[0][$xpath_value_attribute]);
           $this->assertEqual($xpath[0][$xpath_value_attribute], $all_values[$tag_name], "The meta tag was found with the expected value.");
         }
       }
